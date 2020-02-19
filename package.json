@@ -1,0 +1,26 @@
+{
+  "name": "cafe-com-codigo-ssr",
+  "version": "1.0.0",
+  "description": "Slides da apresesentação sobre SSR em React no Café com Código",
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vspedr/cafe-com-codigo-ssr.git"
+  },
+  "keywords": [
+    "react",
+    "ssr",
+    "slides"
+  ],
+  "author": "Victor Pedrazzi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vspedr/cafe-com-codigo-ssr/issues"
+  },
+  "homepage": "https://github.com/vspedr/cafe-com-codigo-ssr#readme",
+  "dependencies": {
+    "mdx-deck": "^2.5.1"
+  }
+}

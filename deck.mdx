@@ -1,0 +1,93 @@
+# React + SSR
+
+---
+
+## Conteúdo
+
+- Static rendering vs. Server-side rendering
+
+---
+
+## Static rendering
+
+- Servidor responde requisições com um HTML estático (sem processamento)
+- HTML estático, inicialmente com pouco ou nenhum conteúdo referencia js, css e outros recursos
+- Página é montada depois que recursos são carregados
+- Exemplo: `create-react-app`
+
+<img src="static-rendering.png" alt="Static rendering" />
+
+---
+
+## Static rendering
+
+- Crawlers podem não executar JS
+  - Página pode aparecer sem conteúdo para os crawlers
+- Conteúdo dinâmico somente após carregamento e execução do JS
+  - Não é possível usar conteúdo dinâmico para SEO
+
+---
+
+<img src="csr.png" alt="Static rendering diagram" />
+
+---
+
+## Server-side rendering
+
+- Servidor processa requisições e retorna HTML montado dinamicamente
+- Página vem pré-renderizada do servidor (com conteúdo mas não interativa), renderiza por completo no client
+  - hooks e lifecycles do React por padrão são executados somente no client
+- Exemplo: `next.js, after.js`
+- Impacto no tempo de resposta pouco significativo
+
+<img src="server-rendering.png" alt="Server rendering" />
+
+---
+
+<img src="ssr.png" alt="Server-side rendering diagram" />
+
+---
+
+## Server-side rendering
+
+- `getInitialProps` permite fazer chamadas assíncronas antes de responder a requisição
+
+  - pode usar dados da requisição para isso (query params, headers...)
+  - exemplo: usar id de uma rota para preencher `<title>` com nome do recurso
+  - permite indexar páginas individuais nos motores de busca
+
+- bonus: `prefetch`
+  - permite carregar previamente conteúdo de páginas que o usuário pode acessar a partir da atual
+  - exemplo: Gloob - se estou na página principal (/), posso ir para /eventos
+
+---
+
+## Server-side rendering
+
+### FOUC (Flash Of Unstyled Content)
+
+- Acontece quando os `style`s são baixados processados depois do HTML estar pronto
+- Solução: configurar css-in-js para SSR (`styled-components`, `emotion`)
+  - Tags `style` são injetadas antes do `body`
+
+---
+
+## Server-side rendering
+
+### Global `window`
+
+- `window` existe somente no navegador, não no Node.js
+- Como saber se esse render foi executado no client ou no server?
+
+```javascript
+if (typeof window === "undefined") {
+  // ... server-side code
+}
+```
+
+#### Exemplos:
+
+- Configurações específicas para server-side
+  - URLs diferentes do backend para client e server-side
+- Componentes diferentes em mobile e desktop. Como saber o tamanho da tela?
+  - Server-side usa estimativa baseada no header User-Agent
