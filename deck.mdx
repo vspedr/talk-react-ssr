@@ -4,18 +4,51 @@
 
 ## Conteúdo
 
-- Static rendering vs. Server-side rendering
+- Definições
+  - Static rendering
+  - Server-side rendering
+- Features do SSR
+  - getInitialProps
+  - prefetch
+- "Caveats" do SSR
+  - FOUC
+  - Global "window"
+- Resumo / Dúvidas / Bate-papo
 
 ---
 
 ## Static rendering
 
+- a.k.a. CSR (Client-side rendering)
 - Servidor responde requisições com um HTML estático (sem processamento)
 - HTML estático, inicialmente com pouco ou nenhum conteúdo referencia js, css e outros recursos
 - Página é montada depois que recursos são carregados
 - Exemplo: `create-react-app`
 
 <img src="static-rendering.png" alt="Static rendering" />
+
+---
+
+## Static rendering
+
+HTML inicial:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- meta tags... -->
+    <title>My page</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- more scripts... -->
+
+    <script src="/my-page/static/js/main.676bc650.chunk.js"></script>
+  </body>
+</html>
+```
 
 ---
 
@@ -36,11 +69,14 @@
 
 - Servidor processa requisições e retorna HTML montado dinamicamente
 - Página vem pré-renderizada do servidor (com conteúdo mas não interativa), renderiza por completo no client
-  - hooks e lifecycles do React por padrão são executados somente no client
+  - ocorre "hydration" no client: Assimilação do HTML já gerado com o Virtual DOM do React
 - Exemplo: `next.js, after.js`
-- Impacto no tempo de resposta pouco significativo
 
 <img src="server-rendering.png" alt="Server rendering" />
+
+---
+
+<img src="blastoise.jpg" alt="Blastoise" />
 
 ---
 
@@ -50,15 +86,24 @@
 
 ## Server-side rendering
 
-- `getInitialProps` permite fazer chamadas assíncronas antes de responder a requisição
+### `getInitialProps`
 
+- permite fazer chamadas assíncronas antes de responder a requisição
   - pode usar dados da requisição para isso (query params, headers...)
   - exemplo: usar id de uma rota para preencher `<title>` com nome do recurso
   - permite indexar páginas individuais nos motores de busca
+  - next.js e after.js suportam
 
-- bonus: `prefetch`
-  - permite carregar previamente conteúdo de páginas que o usuário pode acessar a partir da atual
-  - exemplo: Gloob - se estou na página principal (/), posso ir para /eventos
+---
+
+## Server-side rendering
+
+### `prefetch`
+
+- permite carregar previamente conteúdo de páginas que o usuário pode acessar a partir da atual
+  - exemplo: se estou na página principal (/), posso ir para /eventos
+  - suporte a code splitting
+  - next.js e after.js suportam, de maneiras diferentes
 
 ---
 
@@ -66,9 +111,13 @@
 
 ### FOUC (Flash Of Unstyled Content)
 
+<!-- TODO: Adicionar exemplo -->
+
 - Acontece quando os `style`s são baixados processados depois do HTML estar pronto
-- Solução: configurar css-in-js para SSR (`styled-components`, `emotion`)
-  - Tags `style` são injetadas antes do `body`
+- Soluções:
+  - externalizar CSS crítico
+  - configurar css-in-js para SSR (`styled-components`, `emotion`)
+    - Tags `style` são injetadas antes do `body`
 
 ---
 
@@ -85,9 +134,30 @@ if (typeof window === "undefined") {
 }
 ```
 
+- Soluções:
+  - next.js: dynamic component import opcional no SSR
+  - delegar chamadas com window para client se possível
+
+---
+
+## Server-side rendering
+
+### Global `window`
+
 #### Exemplos:
 
 - Configurações específicas para server-side
   - URLs diferentes do backend para client e server-side
 - Componentes diferentes em mobile e desktop. Como saber o tamanho da tela?
   - Server-side usa estimativa baseada no header User-Agent
+
+---
+
+## Resumo
+
+- Static rendering: devolve HTML e JS estáticos, renderização ocorre somente no client
+- Server rendering: devolve HTML dinâmico, renderização inicial no servidor e hidratação no cliente
+- Usar SSR quando:
+  - "First meaningful paint" for importante (para fins de UX)
+  - HTML inicial precisa mudar de acordo com a rota e atender crawlsers que não executam JS (para fins de SEO)
+  - "Graceful degradation" caso o client não execute javascript
