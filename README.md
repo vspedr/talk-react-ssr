@@ -1,4 +1,4 @@
-# cafe-com-codigo-ssr
+# talk-react-ssr-ssr
 
 Slides de uma apresentação sobre SSR em React no Café com Código
 
