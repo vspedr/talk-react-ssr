@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/vspedr/cafe-com-codigo-ssr#readme",
   "dependencies": {
-    "mdx-deck": "^2.5.1"
+    "mdx-deck": "^4.1.1"
   }
 }

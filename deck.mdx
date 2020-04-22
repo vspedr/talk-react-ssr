@@ -1,3 +1,25 @@
+import { FullScreenCode } from "mdx-deck";
+import { comic, prism } from "@mdx-deck/themes";
+
+export const theme = {
+  ...comic,
+  ...prism,
+  fonts: { body: "monospace" },
+  colors: {
+    ...comic.colors,
+    ...prism.colors,
+    background: "#f5f2f0",
+    text: "#222",
+  },
+};
+
+import staticRenderingImg from "./static-rendering.png";
+import serverRenderingImg from "./server-rendering.png";
+import csrDiagramImg from "./csr.png";
+import ssrDiagramImg from "./ssr.png";
+
+import "./global.css";
+
 # React + SSR
 
 ---
@@ -23,15 +45,15 @@
 - Servidor responde requisições com um HTML estático (sem processamento)
 - HTML estático, inicialmente com pouco ou nenhum conteúdo referencia js, css e outros recursos
 - Página é montada depois que recursos são carregados
-- Exemplo: `create-react-app`
-
-<img src="static-rendering.png" alt="Static rendering" />
+- Exemplo: `create-react-app`, Gatsby.js
 
 ---
 
-## Static rendering
+<img src={staticRenderingImg} alt="Static rendering" />
 
-HTML inicial:
+---
+
+<FullScreenCode>
 
 ```html
 <!DOCTYPE html>
@@ -50,18 +72,20 @@ HTML inicial:
 </html>
 ```
 
+</FullScreenCode>
+
 ---
 
 ## Static rendering
 
 - Crawlers podem não executar JS
-  - Página pode aparecer sem conteúdo para os crawlers
+  - Página pode aparecer sem conteúdo para os search engines e previews
 - Conteúdo dinâmico somente após carregamento e execução do JS
   - Não é possível usar conteúdo dinâmico para SEO
 
 ---
 
-<img src="csr.png" alt="Static rendering diagram" />
+<img src={csrDiagramImg} alt="Static rendering diagram" />
 
 ---
 
@@ -70,17 +94,15 @@ HTML inicial:
 - Servidor processa requisições e retorna HTML montado dinamicamente
 - Página vem pré-renderizada do servidor (com conteúdo mas não interativa), renderiza por completo no client
   - ocorre "hydration" no client: Assimilação do HTML já gerado com o Virtual DOM do React
-- Exemplo: `next.js, after.js`
-
-<img src="server-rendering.png" alt="Server rendering" />
+- Exemplos: `next.js, after.js`
 
 ---
 
-<img src="blastoise.jpg" alt="Blastoise" />
+<img src={serverRenderingImg} alt="Server rendering" />
 
 ---
 
-<img src="ssr.png" alt="Server-side rendering diagram" />
+<img src={ssrDiagramImg} alt="Server-side rendering diagram" />
 
 ---
 
@@ -89,10 +111,22 @@ HTML inicial:
 ### `getInitialProps`
 
 - permite fazer chamadas assíncronas antes de responder a requisição
-  - pode usar dados da requisição para isso (query params, headers...)
-  - exemplo: usar id de uma rota para preencher `<title>` com nome do recurso
-  - permite indexar páginas individuais nos motores de busca
-  - next.js e after.js suportam
+- pode usar dados da requisição para isso (query params, headers...)
+- exemplo: usar id de uma rota para preencher `<title>` com nome do recurso
+- permite indexar páginas individuais nos motores de busca
+- next.js e after.js suportam
+
+---
+
+## Server-side rendering
+
+### `getInitialProps` (exemplo)
+
+https://www.netflix.com/br/title/80192098
+
+⬇️
+
+`<title>La casa de papel | Site Oficial Netflix</title>`
 
 ---
 
@@ -111,13 +145,10 @@ HTML inicial:
 
 ### FOUC (Flash Of Unstyled Content)
 
-<!-- TODO: Adicionar exemplo -->
-
-- Acontece quando os `style`s são baixados processados depois do HTML estar pronto
+- Acontece quando os estilos são processados depois de o HTML estar pronto
 - Soluções:
-  - externalizar CSS crítico
+  - incluir `<style>`s críticos no `<head>`
   - configurar css-in-js para SSR (`styled-components`, `emotion`)
-    - Tags `style` são injetadas antes do `body`
 
 ---
 
@@ -126,17 +157,12 @@ HTML inicial:
 ### Global `window`
 
 - `window` existe somente no navegador, não no Node.js
-- Como saber se esse render foi executado no client ou no server?
-
-```javascript
-if (typeof window === "undefined") {
-  // ... server-side code
-}
-```
 
 - Soluções:
+  - `if (typeof window === "undefined") ...`
   - next.js: dynamic component import opcional no SSR
   - delegar chamadas com window para client se possível
+    - updates não são executados no servidor
 
 ---
 
@@ -158,6 +184,11 @@ if (typeof window === "undefined") {
 - Static rendering: devolve HTML e JS estáticos, renderização ocorre somente no client
 - Server rendering: devolve HTML dinâmico, renderização inicial no servidor e hidratação no cliente
 - Usar SSR quando:
-  - "First meaningful paint" for importante (para fins de UX)
-  - HTML inicial precisa mudar de acordo com a rota e atender crawlsers que não executam JS (para fins de SEO)
+  - HTML inicial precisa mudar de acordo com a rota e atender crawlers que não executam JS (para fins de SEO)
   - "Graceful degradation" caso o client não execute javascript
+
+---
+
+# thanks ;)
+
+[https://github.com/vspedr](https://github.com/vspedr)

@@ -1,0 +1,12 @@
+/* [class$="Main"] {
+  padding: 0 10%;
+} */
+
+div > ul {
+  max-width: 60%;
+}
+
+ul > li {
+  line-height: 1.25em;
+  margin: 0.5em 0;
+}
