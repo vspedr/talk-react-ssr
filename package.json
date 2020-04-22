@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/vspedr/talk-react-ssr/issues"
   },
-  "homepage": "https://github.com/vspedr/talk-react-ssr#readme",
+  "homepage": "https://vspedr.github.io/talk-react-ssr",
   "dependencies": {
     "mdx-deck": "^4.1.1"
   }
