@@ -1,5 +1,5 @@
 {
-  "name": "talk-react-ssr-ssr",
+  "name": "talk-react-ssr",
   "version": "1.0.0",
   "description": "Slides da apresesentação sobre SSR em React",
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vspedr/talk-react-ssr-ssr.git"
+    "url": "git+https://github.com/vspedr/talk-react-ssr.git"
   },
   "keywords": [
     "react",
@@ -17,9 +17,9 @@
   "author": "Victor Pedrazzi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vspedr/talk-react-ssr-ssr/issues"
+    "url": "https://github.com/vspedr/talk-react-ssr/issues"
   },
-  "homepage": "https://github.com/vspedr/talk-react-ssr-ssr#readme",
+  "homepage": "https://github.com/vspedr/talk-react-ssr#readme",
   "dependencies": {
     "mdx-deck": "^4.1.1"
   }

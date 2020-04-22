@@ -1,4 +1,4 @@
-# talk-react-ssr-ssr
+# talk-react-ssr
 
 Slides de uma apresentação sobre SSR em React no Café com Código
 
