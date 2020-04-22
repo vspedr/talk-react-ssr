@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Slides da apresesentação sobre SSR em React",
   "scripts": {
-    "start": "mdx-deck deck.mdx"
+    "start": "mdx-deck deck.mdx",
+    "build": "mdx-deck build deck.mdx"
   },
   "repository": {
     "type": "git",
